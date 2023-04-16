@@ -1,6 +1,6 @@
 // https://unitycoder.com/blog/2018/11/30/sprite-sheet-flip-book-shader/
 
-Shader "UnityLibrary/Sprites/FlipBook (Cutout)"
+Shader "Sprites/FlipBook (Cutout)"
 {
 	Properties
 	{
