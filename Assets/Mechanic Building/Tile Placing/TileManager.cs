@@ -7,6 +7,8 @@ using TMPro;
 
 public class TileManager : MonoBehaviour
 {
+    public static TileManager instance;
+
     [SerializeField] Tilemap ground;
     [SerializeField] GameObject newGroundPrefabStatic, newGroundPrefabFalling;
     GameObject selectedGround;
@@ -14,9 +16,13 @@ public class TileManager : MonoBehaviour
     [SerializeField] int staticBlockLimit, fallingBlockLimit, staticBlockCount, fallingBlockCount;
     [SerializeField] TMP_Text staticBlockCountText, fallingBlockCountText;
     Vector3 worldPos;
-    List<Vector3Int> posOccupied = new List<Vector3Int>{};
+    public List<Vector3Int> posOccupied = new List<Vector3Int>{};
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
         foreach(var position in ground.cellBounds.allPositionsWithin) {
@@ -48,20 +54,20 @@ public class TileManager : MonoBehaviour
                 var tilePos = ground.WorldToCell(worldPos);
                 if(!posOccupied.Contains(tilePos)){
                     if(selectedGround == newGroundPrefabStatic && staticBlockCount < staticBlockLimit){
-                        var newGroundObj = GameObject.Instantiate(selectedGround,
-                                tilePos + new Vector3(0.5f,0.5f,0), Quaternion.identity);
-                        posOccupied.Add(tilePos);
-                        StartCoroutine(RemoveTileDelay(newGroundObj, tilePos));
+                        CreateBlock();
                         staticBlockCount++;
                         staticBlockCountText.text = staticBlockCount.ToString();
                     } else
                     if(selectedGround == newGroundPrefabFalling && fallingBlockCount < fallingBlockLimit){
+                        CreateBlock();
+                        fallingBlockCount++;
+                        fallingBlockCountText.text = fallingBlockCount.ToString();
+                    }
+                    void CreateBlock(){
                         var newGroundObj = GameObject.Instantiate(selectedGround,
                                 tilePos + new Vector3(0.5f,0.5f,0), Quaternion.identity);
                         posOccupied.Add(tilePos);
                         StartCoroutine(RemoveTileDelay(newGroundObj, tilePos));
-                        fallingBlockCount++;
-                        fallingBlockCountText.text = fallingBlockCount.ToString();
                     }
                 }
             }
