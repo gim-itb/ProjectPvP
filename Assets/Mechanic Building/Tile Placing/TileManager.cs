@@ -32,6 +32,8 @@ public class TileManager : MonoBehaviour
         }
 
         selectedGround = newGroundPrefabStatic;
+        
+        UpdateBlockCount();
     }
 
     // Update is called once per frame
@@ -56,25 +58,25 @@ public class TileManager : MonoBehaviour
                     if(selectedGround == newGroundPrefabStatic && staticBlockCount < staticBlockLimit){
                         CreateBlock();
                         staticBlockCount++;
-                        staticBlockCountText.text = staticBlockCount.ToString();
+                        UpdateBlockCount();
                     } else
                     if(selectedGround == newGroundPrefabFalling && fallingBlockCount < fallingBlockLimit){
                         CreateBlock();
                         fallingBlockCount++;
-                        fallingBlockCountText.text = fallingBlockCount.ToString();
+                        UpdateBlockCount();
                     }
                     void CreateBlock(){
                         var newGroundObj = GameObject.Instantiate(selectedGround,
                                 tilePos + new Vector3(0.5f,0.5f,0), Quaternion.identity);
                         posOccupied.Add(tilePos);
-                        StartCoroutine(RemoveTileDelay(newGroundObj, tilePos));
+                        StartCoroutine(RemoveTileDelay(newGroundObj, tilePos, selectedGround));
                     }
                 }
             }
         }
     }
 
-    IEnumerator RemoveTileDelay(GameObject tile, Vector3Int pos){
+    IEnumerator RemoveTileDelay(GameObject tile, Vector3Int pos, GameObject type){
         float t = 0;
         while (t < tileDestroyDelay){
             t += Time.deltaTime;
@@ -83,6 +85,19 @@ public class TileManager : MonoBehaviour
         }
         posOccupied.Remove(pos);
         Destroy(tile);
+
+        if(type == newGroundPrefabStatic){
+            staticBlockCount--;
+            UpdateBlockCount();
+        } else {
+            fallingBlockCount--;
+            UpdateBlockCount();
+        }
+    }
+
+    void UpdateBlockCount(){
+        staticBlockCountText.text = $"{staticBlockCount}/{staticBlockLimit}";
+        fallingBlockCountText.text = $"{fallingBlockCount}/{fallingBlockLimit}";
     }
 
     public void ChangeSelectedGround(int selected){
