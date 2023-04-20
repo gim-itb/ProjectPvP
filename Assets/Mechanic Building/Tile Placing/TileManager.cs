@@ -13,10 +13,12 @@ public class TileManager : MonoBehaviour
     [SerializeField] GameObject newGroundPrefabStatic, newGroundPrefabFalling;
     GameObject selectedGround;
     [SerializeField] float tileDestroyDelay = 5;
-    [SerializeField] int staticBlockLimit, fallingBlockLimit, staticBlockCount, fallingBlockCount;
-    [SerializeField] TMP_Text staticBlockCountText, fallingBlockCountText;
+    [SerializeField] int staticBlockLimit, fallingBlockLimit, storedBlockLimit,
+        staticBlockCount, fallingBlockCount, storedBlockCount;
+    [SerializeField] TMP_Text staticBlockCountText, fallingBlockCountText, storedBlockCountText;
     Vector3 worldPos;
     public List<Vector3Int> posOccupied = new List<Vector3Int>{};
+    List<Vector3Int> groundTiles = new List<Vector3Int>{};
 
     void Awake()
     {
@@ -27,10 +29,12 @@ public class TileManager : MonoBehaviour
     {
         foreach(var position in ground.cellBounds.allPositionsWithin) {
             if (ground.HasTile(position)) {
-                posOccupied.Add(position);
+                groundTiles.Add(position);
             }
         }
+        posOccupied.AddRange(groundTiles);
 
+        //storedBlockLimit = staticBlockLimit + fallingBlockLimit;
         selectedGround = newGroundPrefabStatic;
         
         UpdateBlockCount();
@@ -43,33 +47,44 @@ public class TileManager : MonoBehaviour
         mousePos.z = Camera.main.nearClipPlane;
         worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        // remove
-        if(Input.GetMouseButtonDown(1)){
-            var tilePos = ground.WorldToCell(worldPos);
-            ground.SetTile(tilePos, null);
-            posOccupied.Remove(tilePos);
+        // remove ground block
+        if(storedBlockCount + staticBlockCount + fallingBlockCount < storedBlockLimit){
+            if(Input.GetMouseButtonDown(1)){
+                var tilePos = ground.WorldToCell(worldPos);
+                if (groundTiles.Contains(tilePos)){
+                    ground.SetTile(tilePos, null);
+                    posOccupied.Remove(tilePos);
+                    groundTiles.Remove(tilePos);
+                    storedBlockCount++;
+                    UpdateBlockCount();
+                }
+            }
         }
 
-        // add
-        if(Input.GetMouseButtonDown(0)){
-            if(!EventSystem.current.IsPointerOverGameObject()){
-                var tilePos = ground.WorldToCell(worldPos);
-                if(!posOccupied.Contains(tilePos)){
-                    if(selectedGround == newGroundPrefabStatic && staticBlockCount < staticBlockLimit){
-                        CreateBlock();
-                        staticBlockCount++;
-                        UpdateBlockCount();
-                    } else
-                    if(selectedGround == newGroundPrefabFalling && fallingBlockCount < fallingBlockLimit){
-                        CreateBlock();
-                        fallingBlockCount++;
-                        UpdateBlockCount();
-                    }
-                    void CreateBlock(){
-                        var newGroundObj = GameObject.Instantiate(selectedGround,
-                                tilePos + new Vector3(0.5f,0.5f,0), Quaternion.identity);
-                        posOccupied.Add(tilePos);
-                        StartCoroutine(RemoveTileDelay(newGroundObj, tilePos, selectedGround));
+        // place block
+        if(storedBlockCount > 0 && staticBlockCount + fallingBlockCount + storedBlockCount <= storedBlockLimit){
+            if(Input.GetMouseButtonDown(0)){
+                if(!EventSystem.current.IsPointerOverGameObject()){
+                    var tilePos = ground.WorldToCell(worldPos);
+                    if(!posOccupied.Contains(tilePos)){
+                        if(selectedGround == newGroundPrefabStatic && staticBlockCount < staticBlockLimit){
+                            CreateBlock();
+                            staticBlockCount++;
+                            UpdateBlockCount();
+                        } else
+                        if(selectedGround == newGroundPrefabFalling && fallingBlockCount < fallingBlockLimit){
+                            CreateBlock();
+                            fallingBlockCount++;
+                            UpdateBlockCount();
+                        }
+                        void CreateBlock(){
+                            var newGroundObj = GameObject.Instantiate(selectedGround,
+                                    tilePos + new Vector3(0.5f,0.5f,0), Quaternion.identity);
+                            posOccupied.Add(tilePos);
+                            storedBlockCount--;
+                            UpdateBlockCount();
+                            StartCoroutine(RemoveTileDelay(newGroundObj, tilePos, selectedGround));
+                        }
                     }
                 }
             }
@@ -85,6 +100,7 @@ public class TileManager : MonoBehaviour
         }
         posOccupied.Remove(pos);
         Destroy(tile);
+        //storedBlockCount++;
 
         if(type == newGroundPrefabStatic){
             staticBlockCount--;
@@ -98,6 +114,7 @@ public class TileManager : MonoBehaviour
     void UpdateBlockCount(){
         staticBlockCountText.text = $"{staticBlockCount}/{staticBlockLimit}";
         fallingBlockCountText.text = $"{fallingBlockCount}/{fallingBlockLimit}";
+        storedBlockCountText.text = $"Block stored: {storedBlockCount}/{storedBlockLimit}";
     }
 
     public void ChangeSelectedGround(int selected){
