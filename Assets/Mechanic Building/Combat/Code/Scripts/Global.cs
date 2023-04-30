@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public static class Global
 {
-    public static IceMagicCore IceMagicCore;
+    public static MagicCore IceMagicCore;
 
     public static ParticleSystem FrozenHitEffect;
     public static void PlayFrozenHitParticle(Vector3 position)

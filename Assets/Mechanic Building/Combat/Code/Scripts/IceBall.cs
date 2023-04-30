@@ -20,14 +20,15 @@ public class IceBall : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        EntityCore _otherCore = col.GetComponent<EntityCore>();
+        DestroySelf();
+        if(!col.attachedRigidbody.CompareTag("Entity"))return;
+        EntityCore _otherCore = col.attachedRigidbody.GetComponent<EntityCore>();
         if (_otherCore != null)
         {
             _otherCore.OnHurt(new HitObjectParams(
-                0, FreezeDuration, 0, Vector3.zero
+                10, FreezeDuration, 0, _skinTrans.right, Element.Ice
             ));
         }
-        DestroySelf();
     }
     void DestroySelf()
     {
@@ -35,6 +36,7 @@ public class IceBall : MonoBehaviour
         _iceParticle.Clear();
         _iceParticle.Stop(true);
         _trail.Clear();
+        gameObject.SetActive(false);
         ΩLul.Global.IceMagicCore.ReleaseIceBall(this);
     }
     public void EmitTrail()
@@ -44,10 +46,10 @@ public class IceBall : MonoBehaviour
         _iceParticle.Play(true);
     }
 
-    byte _key = 0;
+    ushort _key = 0;
     IEnumerator DestroySelfAfterTime(float time)
     {
-        byte requirement = ++_key;
+        ushort requirement = ++_key;
         yield return new WaitForSeconds(time);
         if(requirement == _key)
         DestroySelf();
