@@ -1,30 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-public class MagicCore : MonoBehaviour
+public class MagicCore : EntityCore
 {
-    public float DurationToFull = 3;
-    public float MaxMagic = 100;
-
-    float _currentMagic = 100;
-    public float CurrentMagic {get{return _currentMagic;} set{_currentMagic=Mathf.Clamp(value, 0, MaxMagic);}}
-    public float CastCost = 10;
+    [SerializeField] MagicData _staticData;
+    MagicData _data;
+    public MagicData Data {get => _data;}
     [SerializeField] Transform _staffTrans;
-    [SerializeField] Transform _spawnPointTrans;
-    [SerializeField] ParticleSystem _castParticle;
-    [SerializeField] ParticleSystem _frozenParticle;
+    [SerializeField] Transform _spawnPoint;
+    public Transform SpawnPoint {get => _spawnPoint;} 
+    [SerializeField] IceBall _iceBall;
 
-    [SerializeField] float _castForce = 100;
-    [SerializeField] IceBall _iceBallRbPrefab;
+    public Action<MagicCore> OnMagicChanged;
+    Action<MagicCore> OnIceBallHit;
+    
 
     void Awake()
     {
-        ΩLul.Global.IceMagicCore = this;
-        ΩLul.Global.FrozenHitEffect = _frozenParticle;
-        _iceBallPool = new ObjectPool<IceBall>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool, 
-            OnDestroyPoolObject, false, 10, 50);
+        _data = Instantiate(_staticData);
+        ΩLul.Global.MagicCore = this;
     }
+
     void Update()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -37,47 +35,25 @@ public class MagicCore : MonoBehaviour
         {
             CastFire();
         }
-        CurrentMagic = CurrentMagic + Time.deltaTime / DurationToFull * MaxMagic;
+        _data.Magic += Time.deltaTime * _data.IceRefillRate * _data.MaxMagic;
+        OnMagicChanged?.Invoke(this);
     }
+
+
+    [Header("Ice Ball")]
+    [SerializeField] ParticleSystem _castParticle;
     void CastIce()
     {
-        if(CurrentMagic < CastCost)
-        {
-            return;
-        }
+        if(_data.Magic < _data.IceCost) return;
         _castParticle.Play();
-        CurrentMagic -= CastCost;
-        _iceBallPool.Get();
+        _iceBall.Shoot(this, _spawnPoint.position, _staffTrans.right * _data.IceSpeed);
+        _data.Magic -= _data.IceCost;
     }
-
-    // Object Pooling
-    ObjectPool<IceBall> _iceBallPool;
-
-    IceBall CreatePooledItem()
+    public void OnIceHit()
     {
-        return Instantiate(_iceBallRbPrefab, _spawnPointTrans.position, _staffTrans.rotation);
-    }
-    void OnReturnedToPool(IceBall iceBall)
-    {Debug.Log("Return" + iceBall.name);
-        // iceBall.gameObject.SetActive(false);
-    }
-    void OnTakeFromPool(IceBall iceBall)
-    {Debug.Log("Take" + iceBall.name);
-        iceBall.gameObject.SetActive(true);
-        iceBall.EmitTrail();
-        iceBall.transform.position = _spawnPointTrans.position;
-        iceBall.transform.right = _staffTrans.right;
-        iceBall.GetComponent<Rigidbody2D>().AddForce(_staffTrans.right * _castForce, ForceMode2D.Impulse);
-    }
-    void OnDestroyPoolObject(IceBall iceBall)
-    {Debug.Log("Destroy" + iceBall.name);
-        Destroy(iceBall.gameObject);
+        _data.Magic += _data.IceRefillOnHit;
     }
 
-    public void ReleaseIceBall(IceBall iceBall)
-    {
-        _iceBallPool.Release(iceBall);
-    }
 
     [Header("Fire Wrath")]
     [SerializeField] float _fireMaxRange = 4;
@@ -88,7 +64,7 @@ public class MagicCore : MonoBehaviour
 
     void CastFire()
     {
-        if(CurrentMagic < CastCost)
+        if(_data.Magic < _data.FireCost)
         {
             return;
         }
@@ -100,7 +76,7 @@ public class MagicCore : MonoBehaviour
             _castFireParticle.Play();
             _fireWrath.transform.position = hit.point;
             _fireWrath.OnFire();
-            CurrentMagic -= CastCost;
+            _data.Magic -= _data.FireCost;
             return;
         }
 
@@ -112,7 +88,7 @@ public class MagicCore : MonoBehaviour
             _castFireParticle.Play();
             _fireWrath.transform.position = hit.point;
             _fireWrath.OnFire();
-            CurrentMagic -= CastCost;
+            _data.Magic -= _data.FireCost;
             return;
         }
     }

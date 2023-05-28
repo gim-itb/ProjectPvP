@@ -7,19 +7,31 @@ public class BatCore : EntityCore
     [SerializeField] Transform _skinTrans;
     [SerializeField] Transform _freezedSkinTrans;
     bool _isFrozen = false;
-    void FreezeSelf(HitObjectParams hitObjectParams)
+    public override void OnHurt(HitRequest hitObjectParams, ref HitResult hitResult)
+    {
+        hitResult.Type = HitType.Entity;
+        if(hitObjectParams.Element == Element.Ice)
+        {
+            FreezeSelf(hitObjectParams);
+        }
+        else if(hitObjectParams.Element == Element.Fire)
+        {
+            BurnSelf(hitObjectParams);
+        }
+    }
+    void FreezeSelf(HitRequest hitRequest)
     {
         if(_isFrozen)
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.velocity = Vector2.zero;
             rb.AddForce(
-                hitObjectParams.Direction*hitObjectParams.Force, ForceMode2D.Impulse
+                hitRequest.Direction*hitRequest.Knockback, ForceMode2D.Impulse
             );
             return;
         }
         GetComponent<Rigidbody2D>().AddForce(
-                hitObjectParams.Direction*hitObjectParams.Force, ForceMode2D.Impulse
+                hitRequest.Direction*hitRequest.Knockback, ForceMode2D.Impulse
             );
         ++_key;
         _isFrozen = true;
@@ -28,8 +40,7 @@ public class BatCore : EntityCore
         _freezedSkinTrans.gameObject.SetActive(true);
 
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        ΩLul.Global.IceMagicCore.CurrentMagic += 30;
-        StartCoroutine(UnFreezeSelfAfterTime(hitObjectParams.Duration));
+        StartCoroutine(UnFreezeSelfAfterTime(hitRequest.StunDuration));
     }
     
     IEnumerator UnFreezeSelfAfterTime(float time)
@@ -40,7 +51,7 @@ public class BatCore : EntityCore
     void UnFreezeSelf()
     {
         _isFrozen = false;
-        ΩLul.Global.PlayFrozenHitParticle(transform.position);
+        StaticOnEntityUnfreeze?.Invoke(this);
         _skinTrans.gameObject.SetActive(true);
         _freezedSkinTrans.gameObject.SetActive(false);
 
@@ -48,27 +59,16 @@ public class BatCore : EntityCore
         StartCoroutine(ToInitialTransform(_initialPosition, 1f));
     }
 
-    void BurnSelf(HitObjectParams hitObjectParams)
+    void BurnSelf(HitRequest hitObjectParams)
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(
-            hitObjectParams.Direction*hitObjectParams.Force, ForceMode2D.Impulse
+            hitObjectParams.Direction*hitObjectParams.Knockback, ForceMode2D.Impulse
         );
-        ΩLul.Global.IceMagicCore.CurrentMagic += 5;
     }
-    public override void OnHurt(HitObjectParams hitObjectParams)
-    {
-        if(hitObjectParams.Element == Element.Ice)
-        {
-            FreezeSelf(hitObjectParams);
-        }
-        else if(hitObjectParams.Element == Element.Fire)
-        {
-            BurnSelf(hitObjectParams);
-        }
-    }
+    
 
 
     // For testing purpose

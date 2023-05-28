@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 public class FireWrath: MonoBehaviour
 {
-    [SerializeField] float _force = 10;
+    [SerializeField] float _knockback = 10;
     [SerializeField] float _width = 4;
     [SerializeField] float _height = 10;
     [SerializeField] float _delay = 1f;
@@ -11,11 +11,6 @@ public class FireWrath: MonoBehaviour
     [SerializeField] ParticleSystem _fireParticle;
     [SerializeField] LayerMask _enemyLayer;
 
-    IEnumerator DelayFire()
-    {
-        yield return new WaitForSeconds(_delay);
-        OnFire();
-    }
     public void OnFire()
     {
         _fireParticle.Play();
@@ -26,9 +21,13 @@ public class FireWrath: MonoBehaviour
             foreach(RaycastHit2D h in hit)
             {
                 EntityCore other = h.collider.attachedRigidbody.GetComponent<EntityCore>();
-                other.OnHurt(new HitObjectParams(
-                    _force, 0, 10, Vector2.up, Element.Fire
-                ));
+                HitResult hitResult = new HitResult();
+                other.OnHurt(new HitRequest(
+                    damage: 0,
+                    knockback: _knockback,
+                    direction: Vector2.up,
+                    element: Element.Fire
+                ), ref hitResult);
             }
         }
     }

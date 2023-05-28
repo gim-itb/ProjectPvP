@@ -1,57 +1,34 @@
 using UnityEngine;
 using System.Collections;
-public class IceBall : MonoBehaviour
+public class IceBall : Projectile
 {
     public float FreezeDuration = 3;
-    public float DurationUntilDeath = 3;
     [SerializeField] Transform _skinTrans;
-    [SerializeField] TrailRenderer _trail;
-    [SerializeField] ParticleSystem _iceParticle;
-    [SerializeField] ParticleSystem _frozenParticle;
-    Rigidbody2D _rb;
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-    }
-    void Update()
-    {
-        _skinTrans.right = _rb.velocity;
-    }
+    [SerializeField] Rigidbody2D _rb;
 
-    void OnTriggerEnter2D(Collider2D col)
+    public override void OnSpawn()
     {
-        DestroySelf();
-        if(!col.attachedRigidbody.CompareTag("Entity"))return;
-        EntityCore _otherCore = col.attachedRigidbody.GetComponent<EntityCore>();
-        if (_otherCore != null)
+        transform.right = _rb.velocity;
+    }
+    public override void OnHit(EntityCore otherCore)
+    {
+        HitResult hitResult = new HitResult();
+        otherCore.OnHurt(new HitRequest(
+            damage: 10,
+            knockback: 0,
+            duration: FreezeDuration,
+            direction: _skinTrans.right,
+            element: Element.Ice 
+        ), ref hitResult);
+        if(hitResult.Type == HitType.Entity)
         {
-            _otherCore.OnHurt(new HitObjectParams(
-                10, FreezeDuration, 0, _skinTrans.right, Element.Ice
-            ));
+            ((MagicCore)_shooterCore).OnIceHit();
+            StaticOnProjectileHit?.Invoke(this);
         }
+        StaticOnProjectileHit?.Invoke(this);
     }
-    void DestroySelf()
+    public override void OnDestroySelf()
     {
-        ΩLul.Global.PlayFrozenHitParticle(transform.position);
-        _iceParticle.Clear();
-        _iceParticle.Stop(true);
-        _trail.Clear();
         gameObject.SetActive(false);
-        ΩLul.Global.IceMagicCore.ReleaseIceBall(this);
-    }
-    public void EmitTrail()
-    {
-        gameObject.SetActive(true);
-        StartCoroutine(DestroySelfAfterTime(DurationUntilDeath));
-        _iceParticle.Play(true);
-    }
-
-    ushort _key = 0;
-    IEnumerator DestroySelfAfterTime(float time)
-    {
-        ushort requirement = ++_key;
-        yield return new WaitForSeconds(time);
-        if(requirement == _key)
-        DestroySelf();
     }
 }

@@ -2,5 +2,6 @@ using UnityEngine;
 
 public abstract class EntityCore : MonoBehaviour
 {
-    public abstract void OnHurt(HitObjectParams hitObjectParams);
+    public virtual void OnHurt(HitRequest hitRequest, ref HitResult hitResult){}
+    public static System.Action<EntityCore> StaticOnEntityUnfreeze;
 }

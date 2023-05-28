@@ -227,12 +227,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e8a94ea12b2bb449238035cb555d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lifeTime: 5
+  Element: 2
   FreezeDuration: 3
-  DurationUntilDeath: 3
   _skinTrans: {fileID: 3357792642408950915}
-  _trail: {fileID: 3357792642933728651}
-  _iceParticle: {fileID: 3357792643360862443}
-  _frozenParticle: {fileID: 0}
+  _rb: {fileID: 3357792642751110513}
 --- !u!1 &3357792642933728649
 GameObject:
   m_ObjectHideFlags: 0

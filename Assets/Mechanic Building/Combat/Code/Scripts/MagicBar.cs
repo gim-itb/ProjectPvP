@@ -5,9 +5,16 @@ using UnityEngine.UI;
 public class MagicBar : MonoBehaviour
 {
     [SerializeField] Image _image;
-
-    void Update()
+    void OnEnable()
     {
-        _image.fillAmount = ΩLul.Global.IceMagicCore.CurrentMagic / ΩLul.Global.IceMagicCore.MaxMagic;
+        ΩLul.Global.MagicCore.OnMagicChanged += OnMagicChanged;
+    }
+    void OnDisable()
+    {
+        ΩLul.Global.MagicCore.OnMagicChanged -= OnMagicChanged;
+    }
+    void OnMagicChanged(MagicCore core)
+    {
+        _image.fillAmount = core.Data.Magic / core.Data.MaxMagic;
     }
 }
