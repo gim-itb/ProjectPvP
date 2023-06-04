@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6753999181898859092}
   - component: {fileID: 6158631590088734080}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7857956918519301484}
   - component: {fileID: 3026459305452426683}
   - component: {fileID: -1325553536263903613}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: New Ground Static
   m_TagString: Untagged
   m_Icon: {fileID: 0}
