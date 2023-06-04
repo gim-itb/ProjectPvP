@@ -20,6 +20,9 @@ public class TileManager : MonoBehaviour
     public List<Vector3Int> posOccupied = new List<Vector3Int>{};
     List<Vector3Int> groundTiles = new List<Vector3Int>{};
 
+    //
+    bool isEnabled = true;
+
     void Awake()
     {
         instance = this;
@@ -43,6 +46,7 @@ public class TileManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!isEnabled) return;
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Camera.main.nearClipPlane;
         worldPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -121,5 +125,10 @@ public class TileManager : MonoBehaviour
         if(selected == 0){
             selectedGround = newGroundPrefabStatic;
         } else selectedGround = newGroundPrefabFalling;
+    }
+
+    public void SetActive(bool active)
+    {
+        isEnabled = active;
     }
 }

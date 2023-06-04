@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 1252072374110563167}
   - component: {fileID: 1252072374110563160}
   - component: {fileID: 1252072374110563161}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Skin Freezed
   m_TagString: Untagged
   m_Icon: {fileID: 0}

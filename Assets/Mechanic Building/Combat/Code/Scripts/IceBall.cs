@@ -29,6 +29,7 @@ public class IceBall : Projectile
     }
     public override void OnDestroySelf()
     {
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

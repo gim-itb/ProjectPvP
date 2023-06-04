@@ -16,17 +16,22 @@ public class MagicCore : EntityCore
     public Action<MagicCore> OnMagicChanged;
     Action<MagicCore> OnIceBallHit;
     
-
+    [SerializeField] bool _isEnabled = false;
     void Awake()
     {
         _data = Instantiate(_staticData);
         ΩLul.Global.MagicCore = this;
+        _isEnabled = false;
     }
 
     void Update()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _staffTrans.right = mousePos - (Vector2)_staffTrans.position;
+        _data.Magic += Time.deltaTime * _data.IceRefillRate * _data.MaxMagic;
+        OnMagicChanged?.Invoke(this);
+
+        if(!_isEnabled) return;
         if(Input.GetMouseButtonDown(0))
         {
             CastIce();
@@ -35,8 +40,6 @@ public class MagicCore : EntityCore
         {
             CastFire();
         }
-        _data.Magic += Time.deltaTime * _data.IceRefillRate * _data.MaxMagic;
-        OnMagicChanged?.Invoke(this);
     }
 
 
@@ -91,6 +94,11 @@ public class MagicCore : EntityCore
             _data.Magic -= _data.FireCost;
             return;
         }
+    }
+
+    public void SetActive(bool active)
+    {
+        _isEnabled = active;
     }
     
     [Header("Debug")]
