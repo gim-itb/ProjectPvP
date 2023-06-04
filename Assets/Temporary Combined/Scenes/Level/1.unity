@@ -3980,7 +3980,7 @@ GameObject:
   - component: {fileID: 762699174}
   - component: {fileID: 762699173}
   m_Layer: 0
-  m_Name: Tile Pointer (1)
+  m_Name: Tile Pointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4201,7 +4201,7 @@ GameObject:
   - component: {fileID: 940705756}
   - component: {fileID: 940705755}
   m_Layer: 0
-  m_Name: EventSystem (2)
+  m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5147,7 +5147,7 @@ GameObject:
   - component: {fileID: 1785618476}
   - component: {fileID: 1785618474}
   m_Layer: 0
-  m_Name: Grid (1)
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5227,7 +5227,7 @@ GameObject:
   - component: {fileID: 1885314065}
   - component: {fileID: 1885314064}
   m_Layer: 5
-  m_Name: Canvas (2)
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
