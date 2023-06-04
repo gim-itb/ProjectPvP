@@ -45,9 +45,9 @@ public class TransitionAnimation : MonoBehaviour
 
     public System.Action OnAnimationOutFinished;
     public System.Action OnAnimationInFinished;
-    public void StartSceneTransition(TransitionAnimation transition, string sceneName)
+    public void StartSceneTransition(string sceneName)
     {
-        TransitionAnimation animation = Instantiate(transition, Vector3.zero, Quaternion.identity);
+        TransitionAnimation animation = Instantiate(this, Vector3.zero, Quaternion.identity);
         DontDestroyOnLoad(animation.gameObject);
         animation.StartCoroutine(animation.OutAnimation());
         animation.OnAnimationOutFinished = () => {

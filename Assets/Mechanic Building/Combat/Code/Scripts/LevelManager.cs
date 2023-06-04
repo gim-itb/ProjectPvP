@@ -38,6 +38,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] TriggerEvent _winTrigger;
     void OnWinTriggerEnter()
     {
-        _transition.StartSceneTransition(_transition, _nextSceneName);
+        _transition.StartSceneTransition(_nextSceneName);
     }
 }
