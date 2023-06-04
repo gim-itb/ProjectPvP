@@ -23,9 +23,8 @@ public class IceBall : Projectile
         if(hitResult.Type == HitType.Entity)
         {
             ((MagicCore)_shooterCore).OnIceHit();
-            StaticOnProjectileHit?.Invoke(this);
         }
-        StaticOnProjectileHit?.Invoke(this);
+        
     }
     public override void OnDestroySelf()
     {

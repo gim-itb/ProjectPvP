@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
         {
             _frozenVFX.transform.position = projectile.transform.position;
             _frozenVFX.Play();
-        }
+        }     
     }
     void OnEntityUnfreeze(EntityCore core)
     {

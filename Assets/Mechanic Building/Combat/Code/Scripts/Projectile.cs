@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     public static System.Action<Projectile> StaticOnProjectileHit;
     void OnTriggerEnter2D(Collider2D col)
     {
+        StaticOnProjectileHit?.Invoke(this);
         OnDestroySelf();
         if(col.attachedRigidbody == null) return;
         if(!col.attachedRigidbody.CompareTag("Entity"))return;
