@@ -9,12 +9,14 @@ public class LevelManager : MonoBehaviour
     {
         Projectile.StaticOnProjectileHit += OnProjectileHit;
         EntityCore.StaticOnEntityUnfreeze += OnEntityUnfreeze;
+        _winTrigger.OnEnter += OnWinTriggerEnter;
     }
 
     void OnDisable()
     {
         Projectile.StaticOnProjectileHit -= OnProjectileHit;
         EntityCore.StaticOnEntityUnfreeze -= OnEntityUnfreeze;
+        _winTrigger.OnEnter -= OnWinTriggerEnter;
     }
 
     void OnProjectileHit(Projectile projectile)
@@ -29,5 +31,13 @@ public class LevelManager : MonoBehaviour
     {
         _frozenVFX.transform.position = core.transform.position;
         _frozenVFX.Play();
+    }
+
+    [SerializeField] TransitionAnimation _transition;
+    [SerializeField] string _nextSceneName;
+    [SerializeField] TriggerEvent _winTrigger;
+    void OnWinTriggerEnter()
+    {
+        TransitionAnimation.StartSceneTransition(_transition, _nextSceneName);
     }
 }

@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 3640677664999813930}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8841793141032762087
 MonoBehaviour:
@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _frozenVFX: {fileID: 2443863993574013885}
+  _transition: {fileID: 4587534162881054779, guid: dbff204cf9caa4049adc93db6ebe2429, type: 3}
+  _nextSceneName: Test
+  _winTrigger: {fileID: 0}
 --- !u!1001 &8841793141532565896
 PrefabInstance:
   m_ObjectHideFlags: 0
