@@ -5602,7 +5602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1925193308, guid: 6457419d532176e40bea7c01acac8edd, type: 3}
       propertyPath: m_TranslationAtRest.y
-      value: 1.5
+      value: -0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1925193308, guid: 6457419d532176e40bea7c01acac8edd, type: 3}
       propertyPath: m_TranslationAtRest.z
