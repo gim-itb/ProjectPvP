@@ -8,7 +8,7 @@ public class PressurePlateScript : MonoBehaviour
     public Vector3 PressurePlateStartPos,DoorStartPos;
     public Vector3 PressurePlateEndPos, DoorEndPos;
     public GameObject door;
-    bool back = false;
+    bool back = true;
     public float PressurePlateSpeed = 0.005f;
     public float DoorSpeed = 0.015f;
     #endregion
@@ -25,8 +25,8 @@ public class PressurePlateScript : MonoBehaviour
     {
         if(collision.collider.tag == "Player" || collision.collider.tag == "Untagged" || collision.collider.tag == "Entity")
         {
-            transform.Translate(0, -PressurePlateSpeed, 0);
-            door.transform.Translate(-DoorSpeed, 0, 0);//sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
+            transform.Translate(0, -PressurePlateSpeed*Time.deltaTime, 0);
+            door.transform.Translate(-DoorSpeed*Time.deltaTime, 0, 0);//sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
             back = false;
         }
     }
@@ -37,7 +37,7 @@ public class PressurePlateScript : MonoBehaviour
     {
         if (collision.collider.tag == "Player" || collision.collider.tag == "Untagged" || collision.collider.tag == "Entity")
         {
-            collision.transform.parent = transform;
+            //collision.transform.parent = transform;
         }
     }
     #endregion
@@ -47,25 +47,25 @@ public class PressurePlateScript : MonoBehaviour
     {
         if (collision.collider.tag == "Player" || collision.collider.tag == "Untagged" || collision.collider.tag == "Entity")
         {
-            collision.transform.parent = null;
+            //collision.transform.parent = null;
             back = true;
         }
     }
     #endregion
     #region Balik ke posisi semula
-    private void Update()
+    private void FixedUpdate()
     {
         if (back)
         {
             if (transform.position.y < PressurePlateStartPos.y)
             {
-                transform.Translate(0, PressurePlateSpeed, 0);
-                door.transform.Translate(DoorSpeed, 0, 0); //sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
+                transform.Translate(0, PressurePlateSpeed*Time.deltaTime, 0);
+                door.transform.Translate(DoorSpeed*Time.deltaTime, 0, 0); //sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
             }
-            else
-            {
-                back = false;
-            }
+        } else
+        {
+            transform.Translate(0, -PressurePlateSpeed * Time.deltaTime, 0);
+            door.transform.Translate(-DoorSpeed * Time.deltaTime, 0, 0);//sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
         }
     }
     #endregion

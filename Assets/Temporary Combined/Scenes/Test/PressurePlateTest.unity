@@ -1417,9 +1417,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PressurePlateStartPos: {x: 0, y: 0, z: 0}
   DoorStartPos: {x: 0, y: 0, z: 0}
+  PressurePlateEndPos: {x: 0, y: 0, z: 0}
+  DoorEndPos: {x: 0, y: 0, z: 0}
   door: {fileID: 817870344}
-  PressurePlateSpeed: 0.05
-  DoorSpeed: 0.15
+  PressurePlateSpeed: 1
+  DoorSpeed: 3
 --- !u!68 &680558598
 EdgeCollider2D:
   m_ObjectHideFlags: 0
