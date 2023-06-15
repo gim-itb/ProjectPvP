@@ -3,70 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PressurePlateScript : MonoBehaviour
-{   //catatan: tag dengan nama "Untagged" harus diubah kalo seandainya block mau dikasih tag "Block"
-    #region Attributes
-    public Vector3 PressurePlateStartPos,DoorStartPos;
-    public Vector3 PressurePlateEndPos, DoorEndPos;
-    public GameObject door;
-    bool back = true;
-    public float PressurePlateSpeed = 0.005f;
-    public float DoorSpeed = 0.015f;
-    #endregion
-    #region Get door and pressure plate original position
-    private void Start()
+{   //THIS CODE IS SCRAPPED, DO NOT USE IT
+    //catatan: tag dengan nama "Untagged" harus diubah kalo seandainya block mau dikasih tag "Block"
+    // Start is called before the first frame update
+    public Vector3 PressurePlateEndPosition;
+    public Vector3 PressurePlateStartPosition;
+    public float speed;
+    private float elapsed;
+    private bool trigger = false;
+    void Start()
     {
-        PressurePlateStartPos = transform.position;
-        DoorStartPos = door.transform.position;
+        PressurePlateStartPosition = transform.position;
+        PressurePlateEndPosition = new Vector3(transform.position.x, transform.position.y - 1, 0);
     }
-    #endregion
 
-    #region Saat benda dan pemain tetap di atas pressure plate
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D coll)
     {
-        if(collision.collider.tag == "Player" || collision.collider.tag == "Untagged" || collision.collider.tag == "Entity")
+        if(coll.tag == "Player" || coll.tag == "Untagged" || coll.tag == "Entity")
         {
-            transform.Translate(0, -PressurePlateSpeed*Time.deltaTime, 0);
-            door.transform.Translate(-DoorSpeed*Time.deltaTime, 0, 0);//sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
-            back = false;
+            trigger = true;
         }
     }
-    #endregion
 
-    #region Saat pressure platenya dipencet
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D coll)
     {
-        if (collision.collider.tag == "Player" || collision.collider.tag == "Untagged" || collision.collider.tag == "Entity")
+        if (coll.tag == "Player" || coll.tag == "Untagged" || coll.tag == "Entity")
         {
-            //collision.transform.parent = transform;
+            trigger = false;
         }
     }
-    #endregion
+    // Update is called once per frame
+    void FixedUpdate()
+    {
 
-    #region Saat pressure platenya dilepas
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.collider.tag == "Player" || collision.collider.tag == "Untagged" || collision.collider.tag == "Entity")
+        if (trigger)
         {
-            //collision.transform.parent = null;
-            back = true;
-        }
-    }
-    #endregion
-    #region Balik ke posisi semula
-    private void FixedUpdate()
-    {
-        if (back)
-        {
-            if (transform.position.y < PressurePlateStartPos.y)
-            {
-                transform.Translate(0, PressurePlateSpeed*Time.deltaTime, 0);
-                door.transform.Translate(DoorSpeed*Time.deltaTime, 0, 0); //sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
-            }
+            float complete = 1 - Mathf.Pow(speed,Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, PressurePlateEndPosition, complete);
         } else
         {
-            transform.Translate(0, -PressurePlateSpeed * Time.deltaTime, 0);
-            door.transform.Translate(-DoorSpeed * Time.deltaTime, 0, 0);//sorry pintunya diputer -90 derajat ke arah sumbu z di scene PressurePlateTest, ubah nilainya dan pindahin ke nilai y nanti
+            float complete = 1 - Mathf.Pow(speed, Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, PressurePlateStartPosition, complete);
         }
     }
-    #endregion
 }
