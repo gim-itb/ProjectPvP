@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PressurePlateScript : MonoBehaviour
-{   //THIS CODE IS SCRAPPED, DO NOT USE IT
+{   //THIS CODE IS ARCHIVED, MIGHT BE USED LATER WHEN NEEDED
     //catatan: tag dengan nama "Untagged" harus diubah kalo seandainya block mau dikasih tag "Block"
     // Start is called before the first frame update
-    public Vector3 PressurePlateEndPosition;
-    public Vector3 PressurePlateStartPosition;
+    public Vector3 PressurePlateEndPosition; //Posisi akhir pressure plate
+    public Vector3 PressurePlateStartPosition; //Posisi awal pressure plate
     public float speed;
     private float elapsed;
     private bool trigger = false;
