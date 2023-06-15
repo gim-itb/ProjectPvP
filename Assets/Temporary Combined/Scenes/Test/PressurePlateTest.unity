@@ -2750,7 +2750,7 @@ MonoBehaviour:
   _wallCheckSize: {x: 0.11, y: 1.12}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 896
 --- !u!58 &1201354939
 CircleCollider2D:
   m_ObjectHideFlags: 0
