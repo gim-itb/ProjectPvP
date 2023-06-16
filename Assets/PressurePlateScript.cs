@@ -33,17 +33,19 @@ public class PressurePlateScript : MonoBehaviour
         }
     }
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-
         if (trigger)
         {
-            float complete = 1 - Mathf.Pow(speed,Time.deltaTime);
-            transform.position = Vector3.Lerp(transform.position, PressurePlateEndPosition, complete);
+            transform.position = V3Damp(transform.position, PressurePlateEndPosition, speed, Time.deltaTime);
         } else
         {
-            float complete = 1 - Mathf.Pow(speed, Time.deltaTime);
-            transform.position = Vector3.Lerp(transform.position, PressurePlateStartPosition, complete);
+            transform.position = V3Damp(transform.position, PressurePlateStartPosition, speed, Time.deltaTime);
         }
+    }
+
+    public static Vector3 V3Damp(Vector3 a, Vector3 b, float lambda, float dt)
+    {
+        return Vector3.Lerp(a, b, 1 - Mathf.Exp(-lambda * dt));
     }
 }
