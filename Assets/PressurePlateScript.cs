@@ -6,15 +6,19 @@ public class PressurePlateScript : MonoBehaviour
 {   //THIS CODE IS ARCHIVED, MIGHT BE USED LATER WHEN NEEDED
     //catatan: tag dengan nama "Untagged" harus diubah kalo seandainya block mau dikasih tag "Block"
     // Start is called before the first frame update
-    public Vector3 PressurePlateEndPosition; //Posisi akhir pressure plate
+
     public Vector3 PressurePlateStartPosition; //Posisi awal pressure plate
-    public float speed;
-    private float elapsed;
+    public Vector3 PressurePlateEndPosition; //Posisi akhir pressure plate
+    public float PressurePlateSpeed;
+    public GameObject Door;
+    public Vector3 DoorStartPosition; //Posisi awal pressure plate
+    public Vector3 DoorEndPosition; //Posisi akhir pressure plate
+    public float DoorSpeed;
     private bool trigger = false;
     void Start()
     {
         PressurePlateStartPosition = transform.position;
-        PressurePlateEndPosition = new Vector3(transform.position.x, transform.position.y - 1, 0);
+        DoorStartPosition = Door.transform.position;
     }
 
     private void OnTriggerStay2D(Collider2D coll)
@@ -37,10 +41,12 @@ public class PressurePlateScript : MonoBehaviour
     {
         if (trigger)
         {
-            transform.position = V3Damp(transform.position, PressurePlateEndPosition, speed, Time.deltaTime);
+            transform.position = V3Damp(transform.position, PressurePlateEndPosition, PressurePlateSpeed, Time.deltaTime);
+            Door.transform.position = V3Damp(Door.transform.position, DoorEndPosition, DoorSpeed, Time.deltaTime);
         } else
         {
-            transform.position = V3Damp(transform.position, PressurePlateStartPosition, speed, Time.deltaTime);
+            transform.position = V3Damp(transform.position, PressurePlateStartPosition, PressurePlateSpeed, Time.deltaTime);
+            Door.transform.position = V3Damp(Door.transform.position, DoorStartPosition, DoorSpeed, Time.deltaTime);
         }
     }
 
