@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 1252072374110563161}
   m_Layer: 7
   m_Name: Skin Freezed
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
