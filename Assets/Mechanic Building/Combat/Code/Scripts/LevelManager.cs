@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class LevelManager : MonoBehaviour
         Projectile.StaticOnProjectileHit += OnProjectileHit;
         EntityCore.StaticOnEntityUnfreeze += OnEntityUnfreeze;
         _winTrigger.OnEnter += OnWinTriggerEnter;
+        _loseTrigger.OnEnter += OnLoseTriggerEnter;
     }
 
     void OnDisable()
@@ -17,6 +19,7 @@ public class LevelManager : MonoBehaviour
         Projectile.StaticOnProjectileHit -= OnProjectileHit;
         EntityCore.StaticOnEntityUnfreeze -= OnEntityUnfreeze;
         _winTrigger.OnEnter -= OnWinTriggerEnter;
+        _loseTrigger.OnEnter -= OnLoseTriggerEnter;
     }
 
     void OnProjectileHit(Projectile projectile)
@@ -35,9 +38,13 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] TransitionAnimation _transition;
     [SerializeField] string _nextSceneName;
-    [SerializeField] TriggerEvent _winTrigger;
+    [SerializeField] TriggerEvent _winTrigger, _loseTrigger;
     void OnWinTriggerEnter()
     {
         _transition.StartSceneTransition(_nextSceneName);
+    }
+    void OnLoseTriggerEnter()
+    {
+        _transition.StartSceneTransition(SceneManager.GetActiveScene().name);
     }
 }
