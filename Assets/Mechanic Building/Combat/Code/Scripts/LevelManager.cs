@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     void OnEnable()
     {
         Projectile.StaticOnProjectileHit += OnProjectileHit;
-        EntityCore.StaticOnEntityUnfreeze += OnEntityUnfreeze;
+        Core.StaticOnEntityUnfreeze += OnEntityUnfreeze;
         _winTrigger.OnEnter += OnWinTriggerEnter;
         _loseTrigger.OnEnter += OnLoseTriggerEnter;
     }
@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour
     void OnDisable()
     {
         Projectile.StaticOnProjectileHit -= OnProjectileHit;
-        EntityCore.StaticOnEntityUnfreeze -= OnEntityUnfreeze;
+        Core.StaticOnEntityUnfreeze -= OnEntityUnfreeze;
         _winTrigger.OnEnter -= OnWinTriggerEnter;
         _loseTrigger.OnEnter -= OnLoseTriggerEnter;
     }
@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour
             _frozenVFX.Play();
         }     
     }
-    void OnEntityUnfreeze(EntityCore core)
+    void OnEntityUnfreeze(Core core)
     {
         _frozenVFX.transform.position = core.transform.position;
         _frozenVFX.Play();

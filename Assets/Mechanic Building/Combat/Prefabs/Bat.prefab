@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1252072373981473120}
   - component: {fileID: 1252072373981473121}
   - component: {fileID: 1252072373981473122}
-  - component: {fileID: 1910776938801306189}
+  - component: {fileID: 2053503940747542756}
   m_Layer: 6
   m_Name: Bat
   m_TagString: Entity
@@ -152,7 +152,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06673309, y: -0.038635045}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.4999999
 --- !u!50 &1252072373981473122
@@ -163,7 +163,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252072373981473127}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -182,7 +182,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1910776938801306189
+--- !u!114 &2053503940747542756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,11 +191,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1252072373981473127}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fdf5bcd16142da46a1641cac6e29b98, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b6a8aa54cf68e142bb92727d85197a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 1.5
+  _damage: 5
+  _detectRadius: 8
+  _attackRadius: 0.6
+  PlayerLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  PlayerTag: Player
   _skinTrans: {fileID: 1252072374383157070}
   _freezedSkinTrans: {fileID: 1252072374110563167}
+  ChaseTarget: {fileID: 0}
+  _rb: {fileID: 1252072373981473122}
 --- !u!1 &1252072374110563166
 GameObject:
   m_ObjectHideFlags: 0

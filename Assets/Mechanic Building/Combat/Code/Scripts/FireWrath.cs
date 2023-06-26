@@ -20,9 +20,9 @@ public class FireWrath: MonoBehaviour
         {
             foreach(RaycastHit2D h in hit)
             {
-                EntityCore other = h.collider.attachedRigidbody.GetComponent<EntityCore>();
+                Core other = h.collider.attachedRigidbody.GetComponent<Core>();
                 HitResult hitResult = new HitResult();
-                other.OnHurt(new HitRequest(
+                other.Hurt(new HitRequest(
                     damage: 0,
                     knockback: _knockback,
                     direction: Vector2.up,

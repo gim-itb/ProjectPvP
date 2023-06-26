@@ -10,19 +10,19 @@ public class IceBall : Projectile
     {
         transform.right = _rb.velocity;
     }
-    public override void OnHit(EntityCore otherCore)
+    public override void OnHit(Core otherCore)
     {
         HitResult hitResult = new HitResult();
-        otherCore.OnHurt(new HitRequest(
+        otherCore.Hurt(new HitRequest(
             damage: 10,
             knockback: 0,
-            duration: FreezeDuration,
+            stunDuration: FreezeDuration,
             direction: _skinTrans.right,
             element: Element.Ice 
         ), ref hitResult);
         if(hitResult.Type == HitType.Entity)
         {
-            ((MagicCore)_shooterCore).OnIceHit();
+            // ((MagicCore)_shooterCore).OnIceHit();
         }
         
     }

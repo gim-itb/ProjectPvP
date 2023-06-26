@@ -4,7 +4,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] protected float _lifeTime = 5;
     [SerializeField] public Element Element = Element.Normal;
-    protected EntityCore _shooterCore;
+    protected MagicCore _shooterCore;
     public static System.Action<Projectile> StaticOnProjectileHit;
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -13,13 +13,13 @@ public class Projectile : MonoBehaviour
         if(col.attachedRigidbody == null) return;
         if(!col.attachedRigidbody.CompareTag("Entity"))return;
 
-        EntityCore _otherCore = col.attachedRigidbody.GetComponent<EntityCore>();
+        Core _otherCore = col.attachedRigidbody.GetComponent<Core>();
         if (_otherCore != null)
         {
             OnHit(_otherCore);
         }
     }
-    public virtual void OnHit(EntityCore otherCore)
+    public virtual void OnHit(Core otherCore)
     {
         
     }
@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
 
     }
 
-    public Projectile Shoot(EntityCore shooterCore, Vector2 spawnPosition, Vector2 velocity)
+    public Projectile Shoot(MagicCore shooterCore, Vector2 spawnPosition, Vector2 velocity)
     {
         Projectile projectile = Instantiate(this, spawnPosition, Quaternion.identity);
         projectile._shooterCore = shooterCore;

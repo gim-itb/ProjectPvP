@@ -11,12 +11,12 @@ public class HitRequest
 
     public HitRequest(){}
     // Everything
-    public HitRequest(float damage, float knockback, Vector3 direction, Element element = Element.Normal, float duration = 1)
+    public HitRequest(float damage, float knockback, Vector3 direction, Element element = Element.Normal, float stunDuration = 1)
     {
         Damage = damage;
         Knockback = knockback;
         Direction = direction;
         Element = element;
-        StunDuration = duration;
+        StunDuration = stunDuration;
     }
 }
