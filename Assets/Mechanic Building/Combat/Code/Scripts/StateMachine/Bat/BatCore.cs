@@ -16,17 +16,21 @@ public class BatCore : Core<BatCore, BatStates>
     [SerializeField] float _attackRadius = 0.6f;
     public float AttackRadius => _attackRadius;
 
+    [SerializeField] Vector2 _attackOffset;
+    public Vector2 AttackOffset => _attackOffset;
+
     float _stunTimer = 1;
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
 
     [Header("Others")]
+    [SerializeField] Transform _skinTrans;
+    [SerializeField] Transform _freezedSkinTrans;
     [HideInInspector] public LayerMask PlayerLayerMask = 1 << 0;
     [HideInInspector] public string PlayerTag = "Player";
 
-    [SerializeField] Transform _skinTrans;
-    [SerializeField] Transform _freezedSkinTrans;
     [HideInInspector] public Transform ChaseTarget;
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] SpriteRenderer _spriteRenderer;
 
     
     void Awake()
@@ -39,6 +43,30 @@ public class BatCore : Core<BatCore, BatStates>
     void FixedUpdate()
     {
         CurrentState.StateFixedUpdate();
+    }
+    float _attackdelay = 0.15f;
+    float _attackTimer = 0;
+    public void Attack()
+    {
+        if(_attackTimer > 0)
+        {
+            _attackTimer -= Time.deltaTime;
+            return;
+        }
+        _attackTimer = _attackdelay;
+        
+        Collider2D col = Physics2D.OverlapCircle((Vector2)transform.position + _attackOffset, _attackRadius, PlayerLayerMask);
+        if(col == null || !col.CompareTag(PlayerTag)) return;
+
+        PlayerStats playerStats = col.GetComponent<PlayerStats>();
+        if(playerStats == null) return;
+
+        HitRequest hitRequest = new HitRequest(
+            damage: Damage
+        );
+        HitResult hitResult = new HitResult();
+
+        playerStats.Hurt(hitRequest, ref hitResult);
     }
     public void Rotation()
     {
@@ -55,6 +83,7 @@ public class BatCore : Core<BatCore, BatStates>
             return;
         }
         _rb.velocity = direction * _speed;
+        _spriteRenderer.flipX = direction.x < 0;
     }
     public void Stop()
     {

@@ -1,5 +1,7 @@
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class BullCore : Core<BullCore, BullStates>
 {
     [Header("Stats")]
@@ -15,15 +17,21 @@ public class BullCore : Core<BullCore, BullStates>
     [SerializeField] float _attackRadius = 0.6f;
     public float AttackRadius => _attackRadius;
 
+    [SerializeField] Vector2 _attackOffset;
+    public Vector2 AttackOffset => _attackOffset;
+    
+    [SerializeField] float _height;
+    public float Height => _height;
+
     float _stunTimer = 1;
     public float StunTimer { get => _stunTimer; set => _stunTimer = value; }
 
     [Header("Others")]
+    [SerializeField] Transform _skinTrans;
+    [SerializeField] Transform _freezedSkinTrans;
     [HideInInspector] public LayerMask PlayerLayerMask = 1 << 0;
     [HideInInspector] public string PlayerTag = "Player";
 
-    [SerializeField] Transform _skinTrans;
-    [SerializeField] Transform _freezedSkinTrans;
     [HideInInspector] public Transform ChaseTarget;
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] SpriteRenderer _spriteRenderer;
@@ -39,6 +47,35 @@ public class BullCore : Core<BullCore, BullStates>
     void FixedUpdate()
     {
         CurrentState.StateFixedUpdate();
+    }
+
+    float _attackdelay = 0.15f;
+    float _attackTimer = 0;
+    public void Attack()
+    {
+        if(_attackTimer > 0)
+        {
+            _attackTimer -= Time.deltaTime;
+            return;
+        }
+        _attackTimer = _attackdelay;
+        
+        Collider2D col = Physics2D.OverlapCapsule(
+            (Vector2)transform.position + _attackOffset, new Vector2(_attackRadius, _height),
+            CapsuleDirection2D.Vertical, 0, PlayerLayerMask
+        );
+
+        if(col == null || !col.CompareTag(PlayerTag)) return;
+
+        PlayerStats playerStats = col.GetComponent<PlayerStats>();
+        if(playerStats == null) return;
+
+        HitRequest hitRequest = new HitRequest(
+            damage: Damage
+        );
+        HitResult hitResult = new HitResult();
+
+        playerStats.Hurt(hitRequest, ref hitResult);
     }
 
     public void Rotation()
@@ -133,10 +170,35 @@ public class BullCore : Core<BullCore, BullStates>
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _detectRadius);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _attackRadius);
+        // Gizmos.DrawWireSphere(_attackOffset+(Vector2)transform.position, _attackRadius);
+        DrawWireCapsule(_attackOffset+(Vector2)transform.position, Quaternion.identity, _attackRadius/2, _height, Color.blue);
+    }
+
+    public void DrawWireCapsule(Vector3 _pos, Quaternion _rot, float _radius, float _height, Color _color = default(Color))
+    {
+        if (_color != default(Color))
+            Handles.color = _color;
+        Matrix4x4 angleMatrix = Matrix4x4.TRS(_pos, _rot, Handles.matrix.lossyScale);
+        using (new Handles.DrawingScope(angleMatrix))
+        {
+            var pointOffset = (_height - (_radius * 2)) / 2;
+
+            //draw sideways
+            Handles.DrawWireArc(Vector3.up * pointOffset, Vector3.left, Vector3.back, -180, _radius);
+            Handles.DrawLine(new Vector3(0, pointOffset, -_radius), new Vector3(0, -pointOffset, -_radius));
+            Handles.DrawLine(new Vector3(0, pointOffset, _radius), new Vector3(0, -pointOffset, _radius));
+            Handles.DrawWireArc(Vector3.down * pointOffset, Vector3.left, Vector3.back, 180, _radius);
+            //draw frontways
+            Handles.DrawWireArc(Vector3.up * pointOffset, Vector3.back, Vector3.left, 180, _radius);
+            Handles.DrawLine(new Vector3(-_radius, pointOffset, 0), new Vector3(-_radius, -pointOffset, 0));
+            Handles.DrawLine(new Vector3(_radius, pointOffset, 0), new Vector3(_radius, -pointOffset, 0));
+            Handles.DrawWireArc(Vector3.down * pointOffset, Vector3.back, Vector3.left, -180, _radius);
+            //draw center
+            Handles.DrawWireDisc(Vector3.up * pointOffset, Vector3.up, _radius);
+            Handles.DrawWireDisc(Vector3.down * pointOffset, Vector3.up, _radius);
+
+        }
     }
 #endif
-
-    
 }
+

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TransitionAnimation : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class TransitionAnimation : MonoBehaviour
         OnAnimationOutFinished?.Invoke();
     }
 
-    float _inStartedDelay = 0.5f;
+    float _inStartedDelay = 0f;
     float _inDuration = 0.3f;
     public IEnumerator InAnimation()
     {
@@ -49,13 +50,18 @@ public class TransitionAnimation : MonoBehaviour
     {
         TransitionAnimation animation = Instantiate(this, Vector3.zero, Quaternion.identity);
         DontDestroyOnLoad(animation.gameObject);
-        animation.StartCoroutine(animation.OutAnimation());
-        animation.OnAnimationOutFinished = () => {
-            animation.StartCoroutine(animation.InAnimation());
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-        };
-        animation.OnAnimationInFinished = () => {
-            Destroy(animation.gameObject);
-        };
+        animation.StartCoroutine(animation.LoadSceneAnimation(sceneName));
+    }
+
+    IEnumerator LoadSceneAnimation(string sceneName)
+    {
+        StartCoroutine(OutAnimation());
+        yield return new WaitForSeconds(_outDuration);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        StartCoroutine(InAnimation());
     }
 }

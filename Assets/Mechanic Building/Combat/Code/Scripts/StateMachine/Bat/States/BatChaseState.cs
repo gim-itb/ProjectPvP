@@ -21,6 +21,7 @@ public class BatChaseState : BaseState<BatCore, BatStates>
     public override void StateFixedUpdate()
     {
         Core.Rotation();
+        Core.Attack();
         _chaseTimer -= Time.fixedDeltaTime;
         if(_chaseTimer <= 0)
         {

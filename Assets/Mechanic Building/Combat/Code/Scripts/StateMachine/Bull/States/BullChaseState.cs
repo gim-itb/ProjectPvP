@@ -21,6 +21,7 @@ public class BullChaseState : BaseState<BullCore, BullStates>
     public override void StateFixedUpdate()
     {
         Core.Rotation();
+        Core.Attack();
         _chaseTimer -= Time.fixedDeltaTime;
         if(_chaseTimer <= 0)
         {

@@ -198,14 +198,16 @@ MonoBehaviour:
   _damage: 5
   _detectRadius: 8
   _attackRadius: 0.6
+  _attackOffset: {x: 0, y: 0}
+  _skinTrans: {fileID: 1252072374383157070}
+  _freezedSkinTrans: {fileID: 1252072374110563167}
   PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 1
   PlayerTag: Player
-  _skinTrans: {fileID: 1252072374383157070}
-  _freezedSkinTrans: {fileID: 1252072374110563167}
   ChaseTarget: {fileID: 0}
   _rb: {fileID: 1252072373981473122}
+  _spriteRenderer: {fileID: 1252072374383157069}
 --- !u!1 &1252072374110563166
 GameObject:
   m_ObjectHideFlags: 0

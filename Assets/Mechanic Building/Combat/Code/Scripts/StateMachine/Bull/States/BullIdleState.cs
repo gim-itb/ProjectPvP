@@ -19,6 +19,7 @@ public class BullIdleState : BaseState<BullCore, BullStates>
     public override void StateFixedUpdate()
     {
         Core.Rotation();
+        Core.Attack();
         Collider2D col = Physics2D.OverlapCircle(Core.transform.position, Core.DetectRadius, Core.PlayerLayerMask);
         if(col != null && col.CompareTag(Core.PlayerTag))
         {
