@@ -9,6 +9,7 @@ public class HUDManager : MonoBehaviour
     PlayerStats _playerStats;
     void Awake()
     {
+        Time.timeScale = 1f;
         _playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
     }
     void OnEnable()
@@ -21,7 +22,14 @@ public class HUDManager : MonoBehaviour
         _healthBar.SetValue(stats.CurrentHealth/stats.MaxHealth);
         if(stats.CurrentHealth <= 0)
         {
-            _transitionAnimation.StartSceneTransition(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            Time.timeScale = 0.3f;
+            Invoke(nameof(Restart), 0.5f);
         }
+    }
+
+    void Restart()
+    {
+        Time.timeScale = 1f;
+        _transitionAnimation.StartSceneTransition(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }

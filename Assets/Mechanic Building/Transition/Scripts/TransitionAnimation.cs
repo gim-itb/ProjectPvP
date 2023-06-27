@@ -56,11 +56,11 @@ public class TransitionAnimation : MonoBehaviour
     IEnumerator LoadSceneAnimation(string sceneName)
     {
         StartCoroutine(OutAnimation());
-        yield return new WaitForSeconds(_outDuration);
+        yield return new WaitForSecondsRealtime(_outDuration);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
         StartCoroutine(InAnimation());
     }
