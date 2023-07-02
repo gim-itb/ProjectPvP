@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3354651604474697001}
   - component: {fileID: 3354651604474697173}
   - component: {fileID: 3354651604474697174}
+  - component: {fileID: 8529555066444449510}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -35,7 +36,7 @@ Transform:
   m_Children:
   - {fileID: 3354651604708924526}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3354651604474697005
 SpriteRenderer:
@@ -246,6 +247,20 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &8529555066444449510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354651604474696995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e026e6d85ed964ea9d057d42ebbd4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _currentHealth: 0
 --- !u!1 &3354651604708924525
 GameObject:
   m_ObjectHideFlags: 0

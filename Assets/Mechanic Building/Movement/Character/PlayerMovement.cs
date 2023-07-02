@@ -87,10 +87,10 @@ public class PlayerMovement : MonoBehaviour
 			OnJumpInput();
         }
 
-		if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
+		/*if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
 		{
 			OnJumpUpInput();
-		}
+		}*/
 
 		if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.K))
 		{
@@ -146,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		#endregion
 
-		#region DASH CHECKS
+		/*#region DASH CHECKS
 		if (CanDash() && LastPressedDashTime > 0)
 		{
 			//Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
@@ -166,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
 
 			StartCoroutine(nameof(StartDash), _lastDashDir);
 		}
-		#endregion
+		#endregion*/
 
 		#region GRAVITY
 		if (IsSliding)

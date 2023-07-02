@@ -118,7 +118,7 @@ Transform:
   - {fileID: 1252072374383157070}
   - {fileID: 1252072374110563167}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1252072373981473121
 CircleCollider2D:
@@ -154,7 +154,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.4999999
+  m_Radius: 0.4
 --- !u!50 &1252072373981473122
 Rigidbody2D:
   serializedVersion: 4
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6a8aa54cf68e142bb92727d85197a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1.5
+  _speed: 5
   _damage: 5
   _detectRadius: 8
   _attackRadius: 0.6
@@ -235,7 +235,7 @@ Transform:
   m_GameObject: {fileID: 1252072374110563166}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7.5, y: 7.5, z: 7.5}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1252072374555347520}
@@ -366,7 +366,7 @@ Transform:
   m_GameObject: {fileID: 1252072374383157068}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 7.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 5, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1252072373981473120}
