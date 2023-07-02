@@ -40,7 +40,7 @@ public class TransitionAnimation : MonoBehaviour
             _orangeSquareRT.localScale = new Vector3(1, newX, 1);
             yield return null;
         }
-        _orangeSquareRT.localScale = new Vector3(0, 1, 1);
+        _orangeSquareRT.localScale = new Vector3(1, 0, 1);
         OnAnimationInFinished?.Invoke();
     }
 
@@ -60,8 +60,10 @@ public class TransitionAnimation : MonoBehaviour
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSeconds(0.1f);
         }
+        yield return new WaitForSeconds(0.1f);
         StartCoroutine(InAnimation());
+        OnAnimationInFinished += () => Destroy(gameObject);
     }
 }
