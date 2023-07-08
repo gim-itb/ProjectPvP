@@ -38,7 +38,7 @@ public class TileManager : MonoBehaviour
         posOccupied.AddRange(groundTiles);
 
         //storedBlockLimit = staticBlockLimit + fallingBlockLimit;
-        selectedGround = newGroundPrefabStatic;
+        selectedGround = null;
         
         UpdateBlockCount();
     }
@@ -66,28 +66,30 @@ public class TileManager : MonoBehaviour
         }
 
         // place block
-        if(storedBlockCount > 0 && staticBlockCount + fallingBlockCount + storedBlockCount <= storedBlockLimit){
-            if(Input.GetMouseButtonDown(0)){
-                if(!EventSystem.current.IsPointerOverGameObject()){
-                    var tilePos = ground.WorldToCell(worldPos);
-                    if(!posOccupied.Contains(tilePos)){
-                        if(selectedGround == newGroundPrefabStatic && staticBlockCount < staticBlockLimit){
-                            CreateBlock();
-                            staticBlockCount++;
-                            UpdateBlockCount();
-                        } else
-                        if(selectedGround == newGroundPrefabFalling && fallingBlockCount < fallingBlockLimit){
-                            CreateBlock();
-                            fallingBlockCount++;
-                            UpdateBlockCount();
-                        }
-                        void CreateBlock(){
-                            var newGroundObj = GameObject.Instantiate(selectedGround,
-                                    tilePos + new Vector3(0.5f,0.5f,0), Quaternion.identity);
-                            posOccupied.Add(tilePos);
-                            storedBlockCount--;
-                            UpdateBlockCount();
-                            StartCoroutine(RemoveTileDelay(newGroundObj, tilePos, selectedGround));
+        if(selectedGround != null){
+            if(storedBlockCount > 0 && staticBlockCount + fallingBlockCount + storedBlockCount <= storedBlockLimit){
+                if(Input.GetMouseButtonDown(0)){
+                    if(!EventSystem.current.IsPointerOverGameObject()){
+                        var tilePos = ground.WorldToCell(worldPos);
+                        if(!posOccupied.Contains(tilePos)){
+                            if(selectedGround == newGroundPrefabStatic && staticBlockCount < staticBlockLimit){
+                                CreateBlock();
+                                staticBlockCount++;
+                                UpdateBlockCount();
+                            } else
+                            if(selectedGround == newGroundPrefabFalling && fallingBlockCount < fallingBlockLimit){
+                                CreateBlock();
+                                fallingBlockCount++;
+                                UpdateBlockCount();
+                            }
+                            void CreateBlock(){
+                                var newGroundObj = GameObject.Instantiate(selectedGround,
+                                        tilePos + new Vector3(0.5f,0.5f,0), Quaternion.identity);
+                                posOccupied.Add(tilePos);
+                                storedBlockCount--;
+                                UpdateBlockCount();
+                                StartCoroutine(RemoveTileDelay(newGroundObj, tilePos, selectedGround));
+                            }
                         }
                     }
                 }
@@ -124,7 +126,9 @@ public class TileManager : MonoBehaviour
     public void ChangeSelectedGround(int selected){
         if(selected == 0){
             selectedGround = newGroundPrefabStatic;
-        } else selectedGround = newGroundPrefabFalling;
+        } else if (selected == 1){
+            selectedGround = newGroundPrefabFalling;
+        } else selectedGround = null;
     }
 
     public void SetActive(bool active)

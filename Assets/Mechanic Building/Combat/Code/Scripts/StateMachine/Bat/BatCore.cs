@@ -44,7 +44,7 @@ public class BatCore : Core<BatCore, BatStates>
     {
         CurrentState.StateFixedUpdate();
     }
-    float _attackdelay = 0.15f;
+    float _attackdelay = 0.2f;
     float _attackTimer = 0;
     public void Attack()
     {
@@ -77,7 +77,7 @@ public class BatCore : Core<BatCore, BatStates>
     public void Move()
     {
         Vector2 direction = (ChaseTarget.position - transform.position).normalized;
-        if((ChaseTarget.position - transform.position).sqrMagnitude < 1.5f)
+        if((ChaseTarget.position - transform.position).sqrMagnitude < 1f)
         {
             Stop();
             return;
