@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 725816685046004100}
   - component: {fileID: 3219424155129247792}
   - component: {fileID: -4274484507783992412}
+  - component: {fileID: 3201118255108566690}
   m_Layer: 8
   m_Name: PressurePlateSingle
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4084521997305206422
 SpriteRenderer:
@@ -238,3 +239,16 @@ MonoBehaviour:
   DoorStartPosition: {x: 0, y: 0, z: 0}
   DoorEndPosition: {x: 0, y: 0, z: 0}
   DoorSpeed: 0
+--- !u!114 &3201118255108566690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4084521997305206420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6301e4b99a353b94784c3e252b99bb10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: 0}

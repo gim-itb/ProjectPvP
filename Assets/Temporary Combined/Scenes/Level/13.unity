@@ -7278,7 +7278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Select Magic to wield
+  m_text: 'Select "Magic" to wield
 
     <color=blue>Ice</color> and <color=red>Fire'
   m_isRightToLeft: 0

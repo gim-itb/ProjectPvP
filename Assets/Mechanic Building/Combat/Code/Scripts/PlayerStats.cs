@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] float _maxHealth = 100f;
     public float MaxHealth => _maxHealth;
-    [ReadOnly] [SerializeField] float _currentHealth;
+    [SerializeField] float _currentHealth;
     public float CurrentHealth {
         get { return _currentHealth; }
         set { _currentHealth = Mathf.Clamp(value, 0, _maxHealth); }

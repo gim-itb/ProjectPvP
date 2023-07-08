@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -19,6 +20,9 @@ public class BullCore : Core<BullCore, BullStates>
 
     [SerializeField] Vector2 _attackOffset;
     public Vector2 AttackOffset => _attackOffset;
+
+    [SerializeField] float freezeResistance = 0.5f;
+    float freezeTrauma = 0;
     
     [SerializeField] float _height;
     public float Height => _height;
@@ -29,6 +33,7 @@ public class BullCore : Core<BullCore, BullStates>
     [Header("Others")]
     [SerializeField] Transform _skinTrans;
     [SerializeField] Transform _freezedSkinTrans;
+    [SerializeField] SpriteRenderer _freezeTraumaBar;
     [HideInInspector] public LayerMask PlayerLayerMask = 1 << 0;
     [HideInInspector] public string PlayerTag = "Player";
 
@@ -136,14 +141,19 @@ public class BullCore : Core<BullCore, BullStates>
             ForceMode2D.Impulse
         );
 
-        _skinTrans.gameObject.SetActive(false);
-        _freezedSkinTrans.gameObject.SetActive(true);
+        freezeTrauma += 1 - freezeResistance;
+        if (freezeTrauma > 0.999f){
+            _skinTrans.gameObject.SetActive(false);
+            _freezedSkinTrans.gameObject.SetActive(true);
 
-        // GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            // GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
-        SwitchState(States.Freeze());
+            SwitchState(States.Freeze());
+        } else {
+            print(freezeTrauma);
+            _freezeTraumaBar.material.SetFloat("_Progress", freezeTrauma);
+        }
     }
-    
 
     public void UnFreezeSelf()
     {
@@ -152,6 +162,8 @@ public class BullCore : Core<BullCore, BullStates>
         _skinTrans.gameObject.SetActive(true);
         _freezedSkinTrans.gameObject.SetActive(false);
 
+        freezeTrauma = 0;
+        _freezeTraumaBar.material.SetFloat("_Progress", freezeTrauma);
 
         // GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
