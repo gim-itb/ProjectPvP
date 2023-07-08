@@ -131,9 +131,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5873084561112538297, guid: 77fdc023c72c1074498e254b3aa8808c, type: 3}
+      propertyPath: freezeResistance
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 5950259231499374467, guid: 77fdc023c72c1074498e254b3aa8808c, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5950259231499374467, guid: 77fdc023c72c1074498e254b3aa8808c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1681,6 +1685,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94bb04597284c2f438e522113702bb71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseButt: {fileID: 0}
+  continueButt: {fileID: 0}
+  restartButt: {fileID: 0}
+  menuButt: {fileID: 0}
+  pausePanel: {fileID: 0}
   _healthBar: {fileID: 1998731261}
   _transitionAnimation: {fileID: 4587534162881054779, guid: dbff204cf9caa4049adc93db6ebe2429, type: 3}
 --- !u!1001 &858192554
@@ -2165,7 +2174,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1252072373981473120, guid: 3819d55b1e3981d4081aaa7f16247dec, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1252072373981473120, guid: 3819d55b1e3981d4081aaa7f16247dec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4271,6 +4280,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1925193308, guid: 6457419d532176e40bea7c01acac8edd, type: 3}
+      propertyPath: m_TranslationAtRest.x
+      value: 0.106
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925193308, guid: 6457419d532176e40bea7c01acac8edd, type: 3}
+      propertyPath: m_TranslationAtRest.y
+      value: 1.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925193308, guid: 6457419d532176e40bea7c01acac8edd, type: 3}
+      propertyPath: m_TranslationAtRest.z
+      value: -0.00028598122
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925193308, guid: 6457419d532176e40bea7c01acac8edd, type: 3}
+      propertyPath: m_TranslationOffset.y
+      value: -0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 1925193308, guid: 6457419d532176e40bea7c01acac8edd, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
