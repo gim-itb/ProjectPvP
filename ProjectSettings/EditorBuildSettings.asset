@@ -5,12 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mechanic Building/Tile Placing/TilePlacement.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Temporary Combined/Scenes/Test/Test.unity
     guid: ca062efed3a07d0439b11a5823e8199b
+  - enabled: 1
+    path: Assets/Temporary Combined/Scenes/Menu.unity
+    guid: 1aee93ce9bf21d74c93a288da6056428
   - enabled: 1
     path: Assets/Temporary Combined/Scenes/Level/1.unity
     guid: 6a6ec75d2487c63488c0c36aeb3d4426
